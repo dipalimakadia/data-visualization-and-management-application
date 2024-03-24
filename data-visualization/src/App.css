@@ -1,4 +1,20 @@
 .App {
   text-align: center;
 }
+.hello{
+  margin: 10px;
+  height: 70%;
+}
+table{
+  border: 1px solid black;
+  margin: 3px;
+  width:75%;
+  border-collapse: collapse;
+  text-align: left;
+}
 
+table tr, td, th {
+  border: 1px solid black;
+  padding: 5px;
+  width:25%
+} 
