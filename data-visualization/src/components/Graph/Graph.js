@@ -209,7 +209,7 @@ const Graph = () => {
   };
 
   return (
-    <div className="hello">
+    <div className="graphPage">
       <HighchartsReact highcharts={Highcharts} options={baroptions} />
       <HighchartsReact highcharts={Highcharts} options={pieoptions} />
       <HighchartsReact highcharts={Highcharts} options={pieeoptions} />

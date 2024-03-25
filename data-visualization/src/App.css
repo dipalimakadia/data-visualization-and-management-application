@@ -1,14 +1,18 @@
 .App {
   text-align: center;
 }
-.hello{
+.graphPage{
   margin: 10px;
   height: 70%;
 }
+.tablePage{
+  overflow: scroll;
+  margin: 10px;
+}
 table{
   border: 1px solid black;
-  margin: 3px;
-  width:75%;
+  margin: 5px;
+  width:80%;
   border-collapse: collapse;
   text-align: left;
 }
