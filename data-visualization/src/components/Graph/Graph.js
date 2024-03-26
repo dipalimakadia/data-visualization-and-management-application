@@ -25,21 +25,21 @@ const Graph = () => {
     }
   }
 
-  let count32Bit = 0;
-  let count64Bit = 0;
-  Object.keys(graphData).map((val) => {
-    if (
-      graphData[val]?.["Advanced Technologies"]?.["Instruction Set"] ===
-      "32-bit"
-    ) {
-      count32Bit++;
-    } else if (
-      graphData[val]?.["Advanced Technologies"]?.["Instruction Set"] ===
-      "64-bit"
-    ) {
-      count64Bit++;
-    }
-  });
+  // let count32Bit = 0;
+  // let count64Bit = 0;
+  // Object.keys(graphData).map((val) => {
+  //   if (
+  //     graphData[val]?.["Advanced Technologies"]?.["Instruction Set"] ===
+  //     "32-bit"
+  //   ) {
+  //     count32Bit++;
+  //   } else if (
+  //     graphData[val]?.["Advanced Technologies"]?.["Instruction Set"] ===
+  //     "64-bit"
+  //   ) {
+  //     count64Bit++;
+  //   }
+  // });
 
   useEffect(() => {
     axios
@@ -49,10 +49,11 @@ const Graph = () => {
 
   const baroptions = {
     chart: {
+      backgroundColor: "#D3D3D3",
       type: "column",
     },
     title: {
-      text: "Data:: # of Cores and TDP of every chip",
+      text: "Cores and TDP of every chip",
     },
     xAxis: {
       categories: graphData.map((res) => res.name),
@@ -66,20 +67,11 @@ const Graph = () => {
           enabled: true,
         },
       },
-      series: {
-        pointPadding: 0,
-        groupPadding: 0.1,
-        borderWidth: 0,
-        shadow: false,
-      },
     },
     legend: {
       borderWidth: 1,
       backgroundColor: "#ffffff",
       shadow: true,
-    },
-    credits: {
-      enabled: false,
     },
 
     series: [
@@ -100,108 +92,78 @@ const Graph = () => {
     ],
   };
 
+  // const pieeoptions = {
+  //   chart: {
+  //     backgroundColor: "#D3D3D3",
+  //     type: "pie",
+  //   },
+  //   title: {
+  //     text: "No. of processors with Instruction Set of 64-bit and 32-bit",
+  //   },
+  //   plotOptions: {
+  //     pie: {
+  //       cursor: "pointer",
+  //       dataLabels: {
+  //         enabled: true,
+  //       },
+  //     },
+  //   },
+  //   series: [
+  //     {
+  //       name: "No. of Processors: ",
+  //       data: [
+  //         {
+  //           name: "32-bit",
+  //           y: count32Bit,
+  //         },
+  //         {
+  //           name: "64-bit",
+  //           y: count64Bit,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // };
+
   const pieoptions = {
     chart: {
+      backgroundColor: "#D3D3D3",
       type: "pie",
     },
     title: {
-      text: "Data:: No. of processors with Instruction Set of 64-bit and 32-bit",
+      text: "No. of Essentials Status",
+    },
+    tooltip: {
+      pointFormat: "<b>{point.percentage:.1f}%</b>",
     },
     plotOptions: {
       pie: {
+        cursor: "pointer",
         dataLabels: {
           enabled: true,
+          format:
+            '<span style="font-size: 1.2em"><b>{point.name}</b></span><br>' +
+            '<span style="opacity: 0.6">{point.percentage:.1f} %</span>',
         },
       },
-      series: {
-        cursor: "pointer",
-        allowPointSelect: true,
-        borderWidth: 0,
-        shadow: false,
-        colorByPoint: true,
-        style: {
-          fontSize: "1.2em",
-          textOutline: "none",
-          opacity: 0.7,
-        },
-      },
-    },
-    legend: {
-      borderWidth: 1,
-      backgroundColor: "#ffffff",
-      shadow: true,
-    },
-    credits: {
-      enabled: false,
     },
 
     series: [
       {
-        name: "No. of Processors: ",
+        name: "Status: ",
         data: [
-          {
-            name: "32-bit",
-            y: count32Bit,
-          },
-          {
-            name: "64-bit",
-            y: count64Bit,
-          },
-        ],
-      },
-    ],
-  };
-
-  const pieeoptions = {
-    chart: {
-      type: "pie",
-    },
-    title: {
-      text: "Data:: No. of processors with Instruction Set of 64-bit and 32-bit",
-    },
-    plotOptions: {
-      pie: {
-        dataLabels: {
-          enabled: true,
-        },
-      },
-      series: {
-        cursor: "pointer",
-        allowPointSelect: true,
-        borderWidth: 0,
-        shadow: false,
-        colorByPoint: true,
-        style: {
-          fontSize: "1.2em",
-          textOutline: "none",
-          opacity: 0.7,
-        },
-      },
-    },
-    legend: {
-      borderWidth: 1,
-      backgroundColor: "#ffffff",
-      shadow: true,
-    },
-    credits: {
-      enabled: false,
-    },
-
-    series: [
-      {
-        name: "No. of Processors: ",
-        data: [
-          {
-            name: "Announced",
-            y: announced,
-          },
           {
             name: "Launched",
             y: launched,
           },
+
           {
             name: "Discontinued",
             y: discontinued,
+          },
+          {
+            name: "Announced",
+            y: announced,
           },
         ],
       },
@@ -209,10 +171,31 @@ const Graph = () => {
   };
 
   return (
-    <div className="graphPage">
-      <HighchartsReact highcharts={Highcharts} options={baroptions} />
-      <HighchartsReact highcharts={Highcharts} options={pieoptions} />
-      <HighchartsReact highcharts={Highcharts} options={pieeoptions} />
+    <div className="graphPage container-fluid">
+      <div className="row">
+        <HighchartsReact highcharts={Highcharts} options={baroptions} />
+      </div>
+      <div className="row">
+        <HighchartsReact
+          className="col-md-12 col-lg-4"
+          highcharts={Highcharts}
+          options={pieoptions}
+        />
+        {/* <div className="col-md-12 col-lg-6">
+          <HighchartsReact
+            className="col-md-12 col-lg-4"
+            highcharts={Highcharts}
+            options={pieeoptions}
+          />
+        </div>
+        <div className="col-md-12 col-lg-6">
+          <HighchartsReact
+            className="col-md-12 col-lg-4"
+            highcharts={Highcharts}
+            options={pieoptions}
+          />
+        </div> */}
+      </div>
     </div>
   );
 };

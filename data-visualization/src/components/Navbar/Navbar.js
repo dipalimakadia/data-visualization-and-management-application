@@ -12,8 +12,8 @@ const Navbar = () => {
 
                     </ul>
                     <div className="d-flex">
-                        <a href="/graph" type="button" className="btn btn-primary btn-visualize  me-md-2">Visualize</a>
-                        <a href="/table" type="button" className="btn btn-outline-secondary btn-manage  me-md-2">Table</a>
+                        <a href="/graph" type="button" className="btn btn-primary me-md-2">Graph</a>
+                        <a href="/table" type="button" className="btn btn-outline-secondary me-md-2">Table</a>
                     </div>
                 </div>
             </div>
