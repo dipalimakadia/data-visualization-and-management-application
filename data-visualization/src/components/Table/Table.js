@@ -14,6 +14,7 @@ const Table = () => {
   const [sections, setSections] = useState([]);
   const [rows, setRows] = useState([]);
   const [subkeys, setSubkeys] = useState({});
+  const [editedData, setEditedData] = useState({});
 
   useEffect(() => {
     axios.get(`/API_DATA.json`).then((result) => {
@@ -24,7 +25,7 @@ const Table = () => {
         (uniqueSectionKey, uniqueSectionValue) => {
           const keys = Object.keys(uniqueSectionValue);
           keys.forEach((key) => {
-            if (!uniqueSectionKey.includes(key)) {
+            if (!uniqueSectionKey.includes(key) && key !== "name") {
               uniqueSectionKey.push(key);
             }
           });
@@ -62,17 +63,34 @@ const Table = () => {
     });
   }, []);
 
+  useEffect(() => {
+    const storedEditedData = localStorage.getItem("editedData");
+    if (storedEditedData) {
+      setEditedData(JSON.parse(storedEditedData));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (selectedSection) {
+      setRows(
+        tableData.map((tableValue, index) => ({
+          index,
+          name: tableValue.name,
+          ...(subkeys[selectedSection] || []).reduce((acc, subkey) => {
+            acc[subkey] =
+              editedData[index]?.[selectedSection]?.[subkey] ||
+              tableValue[selectedSection]?.[subkey] ||
+              "--";
+            return acc;
+          }, {}),
+        }))
+      );
+    }
+  }, [selectedSection, tableData, editedData, subkeys]);
+
+  //main functionality options click
   const handleButtonClick = (section) => {
     setSelectedSection(section);
-    setRows(
-      tableData.map((tableValue) => ({
-        name: tableValue.name,
-        ...(subkeys[section] || []).reduce((acc, subkey) => {
-          acc[subkey] = tableValue[section]?.[subkey] || "--";
-          return acc;
-        }, {}),
-      }))
-    );
   };
 
   const handleExportRows = (rows) => {
@@ -86,16 +104,51 @@ const Table = () => {
     download(csvConfig)(csv);
   };
 
+  //edit data
+  const handleCellEdit = (rowIndex, columnId, newValue) => {
+    setEditedData((prevEditedData) => {
+      const updatedEditedData = { ...prevEditedData };
+      if (!updatedEditedData[rowIndex]) {
+        updatedEditedData[rowIndex] = {};
+      }
+      if (!updatedEditedData[rowIndex][selectedSection]) {
+        updatedEditedData[rowIndex][selectedSection] = {};
+      }
+      updatedEditedData[rowIndex][selectedSection][columnId] = newValue;
+
+      // Save edited data to local storage
+      localStorage.setItem("editedData", JSON.stringify(editedData));
+      return updatedEditedData;
+    });
+  };
+
+   // Clear local storage
+  const clearLocalStorage = () => {
+    localStorage.removeItem("editedData");
+    setEditedData({});
+  };
+
   const columnHelper = createMRTColumnHelper();
   const columns = [
     columnHelper.accessor("name", {
       header: "Name",
       size: 120,
+      enableEditing: false,
+      editDisplayMode: false,
     }),
     ...(subkeys[selectedSection]?.map((subkey) =>
       columnHelper.accessor(subkey, {
         header: subkey,
         size: 120,
+        enableEditing: true,
+        editDisplayMode: "row",
+        Edit: ({ value, row }) => (
+          <input
+            type="text"
+            value={editedData[row.index]?.[selectedSection]?.[subkey] || value}
+            onChange={(e) => handleCellEdit(row.index, subkey, e.target.value)}
+          />
+        ),
       })
     ) || []),
   ];
@@ -110,7 +163,12 @@ const Table = () => {
     columns,
     data: rows,
     enableRowSelection: true,
-    columnFilterDisplayMode: "popover",
+    editDisplayMode: "row",
+    enableCellActions: true,
+    enableClickToCopy: "context-menu",
+    enableColumnPinning: true,
+    enableEditing: true,
+    // columnFilterDisplayMode: "popover",
     paginationDisplayMode: "pages",
     positionToolbarAlertBanner: "bottom",
     renderTopToolbarCustomActions: ({ table }) => (
@@ -128,6 +186,7 @@ const Table = () => {
         >
           Export {selectedSection} Data
         </Button>
+
         <Button
           disabled={table.getRowModel().rows.length === 0}
           onClick={() => handleExportRows(table.getRowModel().rows)}
@@ -135,13 +194,16 @@ const Table = () => {
         >
           Export Page Rows
         </Button>
+
+        <Button className="btn btn-danger" onClick={clearLocalStorage}>
+          Clear Local Storage
+        </Button>
       </Box>
     ),
   });
 
   return (
     <div className="container">
-      {/* <h1>Sub-data in Table</h1> */}
       <div className="dropdown row m-5">
         <h1>Sub-data in Table Format</h1>
         <button
