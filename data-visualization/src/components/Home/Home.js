@@ -1,12 +1,12 @@
 import React from "react";
-import heroImage from "../../heroImage.jpeg";
+import heroImage from "../../heroImage.png";
 import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
     <div
       id="home"
-      className="flex-grow-1 container d-flex justify-content-center align-items-center col-xxl-8 px-4 py-5"
+      className="homePage flex-grow-1 container-fluid d-flex justify-content-center align-items-center col-xxl-8 px-4 py-5"
     >
       <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
         <div className=" col-sm-12 col-lg-6">
@@ -19,11 +19,11 @@ const Home = () => {
             loading="lazy"
           />
         </div>
-        <div className=" col-sm-12 col-lg-6">
+        <div className="col-sm-12 col-lg-6">
           <h1 className="display-5 fw-bold lh-1 mb-3">
             Data Visualization & Management
           </h1>
-          <p className="lead">
+          <p className="font-color-greyish lead">
             The application allows you to visualize data in the form of graphs
             and tables, along with providing features for data manipulation and
             comparison.
@@ -32,21 +32,21 @@ const Home = () => {
             <Link
               to="/graph"
               type="button"
-              className="btn btn-primary btn-lg px-4 "
+              className="url_link bg-greenish btn-lg px-4 "
             >
               Graph
             </Link>
             <Link
               to="/table"
               type="button"
-              className="btn btn-outline-secondary btn-lg px-4 "
+              className="url_link bg-reddish btn-lg px-4 "
             >
               Table
             </Link>
             <Link
               to="/notes"
               type="button"
-              className="btn btn-dark btn-lg px-4 "
+              className="url_link bg-purpleish btn-lg px-4 "
             >
               Notes
             </Link>

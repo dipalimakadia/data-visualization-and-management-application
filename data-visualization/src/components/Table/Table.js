@@ -5,7 +5,7 @@ import {
   createMRTColumnHelper,
   useMaterialReactTable,
 } from "material-react-table";
-import { Box, Button } from "@mui/material";
+import { darken, lighten, useTheme, Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv";
 const Table = () => {
@@ -122,7 +122,7 @@ const Table = () => {
     });
   };
 
-   // Clear local storage
+  // Clear local storage
   const clearLocalStorage = () => {
     localStorage.removeItem("editedData");
     setEditedData({});
@@ -159,7 +159,37 @@ const Table = () => {
     useKeysAsHeaders: true,
   });
 
+  const theme = useTheme();
+
+  //light or dark green
+  const baseBackgroundColor =
+    theme.palette.mode === "dark" ? "#36454F" : "#D3D3D3";
+
   const table = useMaterialReactTable({
+    muiTableBodyProps: {
+      sx: (theme) => ({
+        '& tr:nth-of-type(odd):not([data-selected="true"]):not([data-pinned="true"]) > td':
+          {
+            backgroundColor: darken(baseBackgroundColor, 0.1),
+          },
+        '& tr:nth-of-type(odd):not([data-selected="true"]):not([data-pinned="true"]):hover > td':
+          {
+            backgroundColor: darken(baseBackgroundColor, 0.2),
+          },
+        '& tr:nth-of-type(even):not([data-selected="true"]):not([data-pinned="true"]) > td':
+          {
+            backgroundColor: lighten(baseBackgroundColor, 0.1),
+          },
+        '& tr:nth-of-type(even):not([data-selected="true"]):not([data-pinned="true"]):hover > td':
+          {
+            backgroundColor: darken(baseBackgroundColor, 0.2),
+          },
+      }),
+    },
+    mrtTheme: (theme) => ({
+      baseBackgroundColor: baseBackgroundColor,
+      draggingBorderColor: theme.palette.secondary.main,
+    }),
     columns,
     data: rows,
     enableRowSelection: true,
@@ -180,20 +210,22 @@ const Table = () => {
           flexWrap: "wrap",
         }}
       >
-        <Button
+        <button
+          className="btn btn-success"
           onClick={handleExportSelectedData}
           startIcon={<FileDownloadIcon />}
         >
           Export {selectedSection} Data
-        </Button>
+        </button>
 
-        <Button
+        <button
+          className=" btn btn-success"
           disabled={table.getRowModel().rows.length === 0}
           onClick={() => handleExportRows(table.getRowModel().rows)}
           startIcon={<FileDownloadIcon />}
         >
           Export Page Rows
-        </Button>
+        </button>
 
         <button className="btn btn-danger" onClick={clearLocalStorage}>
           Clear Local Storage
@@ -203,11 +235,11 @@ const Table = () => {
   });
 
   return (
-    <div className="container">
-      <div className="dropdown row m-5">
-        <h1>Sub-data in Table Format</h1>
+    <div className="container-fluid tablePage bg-black font-color-white">
+      <div className="dropdown row justify-content-center m-5">
+        <h2>Sub-data in Table Format</h2>
         <button
-          className="btn btn-secondary dropdown-toggle"
+          className="font-color-white bg-lightgreenish p-3 border rounded  dropdown-toggle"
           type="button"
           id="dropdownMenuButton1"
           data-bs-toggle="dropdown"
@@ -215,7 +247,10 @@ const Table = () => {
         >
           Table Options
         </button>
-        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul
+          className="dropdown-menu font-color-white p-3 border rounded"
+          aria-labelledby="dropdownMenuButton1"
+        >
           {sections.map((section) => (
             <li>
               <a
@@ -231,7 +266,7 @@ const Table = () => {
         </ul>
       </div>
       <h2>{selectedSection} </h2>
-      <div className="tablePage row">
+      <div className="row tableDisplay m-2 text-white">
         {selectedSection && <MaterialReactTable table={table} />}
       </div>
     </div>

@@ -3,7 +3,7 @@ import { db } from "../../firebase";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Modal, Button } from "react-bootstrap";
-import { Trash, FolderPlus, PencilSquare } from "react-bootstrap-icons";
+import { Trash, FolderPlus, PencilSquare, PersonHeart, PersonHearts } from "react-bootstrap-icons";
 import {
   collection,
   addDoc,
@@ -12,7 +12,6 @@ import {
   deleteDoc,
   updateDoc,
 } from "firebase/firestore";
-import '../Notes/Notes.css';
 
 const Notes = () => {
   const [name, setName] = useState("");
@@ -86,22 +85,21 @@ const Notes = () => {
   };
 
   return (
-    <div className="container-fluid bg-secondary">
-      <div className="row  m-3">
+    <div className="container-fluid text-white bg-black">
+      <div className="row  m-3 p-3">
         <h3>
-          If you have any thoughts about processor or any feedback please write
-          here
+        Suggestion/Feedback
         </h3>
       </div>
       <div className="row">
-        <div className="col-md-3 text-right">
+        <div className="col-md-1 text-right">
           <Button variant="success" onClick={handleShow}>
             <FolderPlus size={20} />
           </Button>
         </div>
       </div>
       <div className="row centered-card  rounded p-4 border border-secondary m-2">
-        <h4>Notes Lists</h4>
+        <h4>Notes</h4>
 
         <Modal show={show} onHide={handleClose}>
           <Modal.Header closeButton>
@@ -152,9 +150,9 @@ const Notes = () => {
         {notes.map((note) => (
           <div
             data-aos="flip-left"
-            className="card col-sm-5 m-1 bg-dark text-white  "
+            className="card col-sm-6 m-1 bg-dark text-white"
           >
-            <h5 className="card-header"> Written By: {note.name}</h5>
+            <h5 className="card-header text-start"> <PersonHeart size={30} className="pr-5"/> {note.name}</h5>
             <div className="card-body">
               <p className="card-text">Note: {note.note}</p>
               <button

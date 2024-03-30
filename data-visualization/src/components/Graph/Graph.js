@@ -49,17 +49,31 @@ const Graph = () => {
 
   const baroptions = {
     chart: {
-      backgroundColor: "#D3D3D3",
+      backgroundColor: "#1C1C1C",
       type: "column",
     },
     title: {
       text: "Cores and TDP of every chip",
+      style: {
+        color: "white",
+      },
+      
     },
     xAxis: {
       categories: graphData.map((res) => res.name),
+      labels: {
+        style: {
+          color: "white",
+        },
+      },
     },
     yAxis: {
       max: 400,
+      labels: {
+        style: {
+          color: "white",
+        },
+      },
     },
     plotOptions: {
       bar: {
@@ -67,6 +81,8 @@ const Graph = () => {
           enabled: true,
         },
       },
+
+     
     },
     legend: {
       borderWidth: 1,
@@ -81,6 +97,7 @@ const Graph = () => {
         tooltip: {
           valueSuffix: " W",
         },
+        color:"#EFC030"
       },
       {
         name: "# of Cores",
@@ -88,17 +105,22 @@ const Graph = () => {
         tooltip: {
           valueSuffix: "",
         },
+        color:"#0044FC"
       },
     ],
   };
 
   // const pieeoptions = {
   //   chart: {
-  //     backgroundColor: "#D3D3D3",
+  //     backgroundColor: "#1C1C1C",
+  // color:"white",
   //     type: "pie",
   //   },
   //   title: {
   //     text: "No. of processors with Instruction Set of 64-bit and 32-bit",
+      // style: {
+      //   color: "white",
+      // },
   //   },
   //   plotOptions: {
   //     pie: {
@@ -127,11 +149,15 @@ const Graph = () => {
 
   const pieoptions = {
     chart: {
-      backgroundColor: "#D3D3D3",
+      backgroundColor: "#1C1C1C",
+      color: "white",
       type: "pie",
     },
     title: {
       text: "No. of Essentials Status",
+      style: {
+        color: "white",
+      },
     },
     tooltip: {
       pointFormat: "<b>{point.percentage:.1f}%</b>",
@@ -155,15 +181,18 @@ const Graph = () => {
           {
             name: "Launched",
             y: launched,
+            color: '#AF4DFF',
           },
 
           {
             name: "Discontinued",
             y: discontinued,
+            color: "#00D47C",
           },
           {
             name: "Announced",
             y: announced,
+            color: "#FF6858"
           },
         ],
       },
@@ -171,7 +200,7 @@ const Graph = () => {
   };
 
   return (
-    <div className="graphPage container-fluid">
+    <div className="graphPage bg-black container-fluid">
       <div className="row">
         <HighchartsReact highcharts={Highcharts} options={baroptions} />
       </div>

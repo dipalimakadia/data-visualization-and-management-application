@@ -1,10 +1,94 @@
 .App {
   text-align: center;
 }
-.graphPage{
-  background-color: #D3D3D3;
+
+.font-color-greyish {
+  color: #757575;
 }
 
-table tr, td, th {
+.font-color-white {
+  color: white;
+}
+
+.url_link {
+  text-decoration: none;
+  padding: 5px;
+  color: white;
+  border-radius: 20px;
+}
+.bg-greenish {
+  background-color: #00d47c;
+}
+.bg-reddish {
+  background-color: #ff6858;
+}
+.bg-purpleish {
+  background-color: #af4dff;
+}
+.bg-black {
+  background-color: #1c1c1c;
+}
+
+.bg-yellowish{
+  background-color: #efc030 ;
+}
+
+.bg-lightgreenish{
+  background-color: #58e8ac;
+  color:black
+}
+
+/* .buttonProperty{
+  border-radius: 10px;
+  border: 0px solid;
+} */
+
+/* Navbar */
+.navbar {
+  color: rgba(210, 206, 206, 0.927);
+  background-color: #000000;
+}
+.navbar .links a:hover:first-child {
+  background-color: #ff6858;
+}
+.navbar .links a:hover:nth-child(2) {
+  background-color: #af4dff;
+}
+
+.navbar .links a:hover:nth-child(3) {
+  background-color: #00d47c;
+}
+
+.navbar a:hover {
+  background-color: #efc030;
+}
+
+/* Home Page */
+.homePage {
+  background: linear-gradient(to bottom right, #282834, #000000);
+  color: aliceblue;
+  font-style: italic;
+}
+
+/* Graph Page */
+/* .graphPage {
+} */
+
+/* Table Page */
+table {
+  background-color: #1c1c1c;
+}
+
+table tr,
+td,
+th {
   border: 1px solid black;
+  width: 90%;
+}
+
+/*Notes Page */
+.centered-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
