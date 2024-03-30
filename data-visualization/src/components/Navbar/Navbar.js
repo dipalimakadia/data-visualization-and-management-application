@@ -14,6 +14,7 @@ const Navbar = () => {
                     <div className="d-flex">
                         <a href="/graph" type="button" className="btn btn-primary me-md-2">Graph</a>
                         <a href="/table" type="button" className="btn btn-outline-secondary me-md-2">Table</a>
+                        <a href="/notes" type="button" className="btn btn-dark me-md-2">Notes</a>
                     </div>
                 </div>
             </div>

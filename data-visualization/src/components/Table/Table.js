@@ -195,9 +195,9 @@ const Table = () => {
           Export Page Rows
         </Button>
 
-        <Button className="btn btn-danger" onClick={clearLocalStorage}>
+        <button className="btn btn-danger" onClick={clearLocalStorage}>
           Clear Local Storage
-        </Button>
+        </button>
       </Box>
     ),
   });

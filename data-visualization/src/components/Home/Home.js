@@ -43,6 +43,13 @@ const Home = () => {
             >
               Table
             </Link>
+            <Link
+              to="/notes"
+              type="button"
+              className="btn btn-dark btn-lg px-4 "
+            >
+              Notes
+            </Link>
           </div>
         </div>
       </div>
