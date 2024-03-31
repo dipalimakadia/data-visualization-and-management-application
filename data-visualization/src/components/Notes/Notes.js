@@ -67,7 +67,7 @@ const Notes = () => {
       duration: 700,
       easing: "ease-out-cubic",
     });
-  });
+  }, []);
 
   const fetchNotes = async () => {
     const notesSnapshot = await getDocs(notesRef);
