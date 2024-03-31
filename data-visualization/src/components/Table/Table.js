@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import {
   MaterialReactTable,
   createMRTColumnHelper,
   useMaterialReactTable,
 } from "material-react-table";
-import { darken, lighten, useTheme, Box, Button } from "@mui/material";
+import { darken, lighten, useTheme, Box } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv";
-const Table = () => {
+
+const Table = ({data}) => {
   const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState("");
   const [sections, setSections] = useState([]);
@@ -17,11 +17,10 @@ const Table = () => {
   const [editedData, setEditedData] = useState({});
 
   useEffect(() => {
-    axios.get(`/API_DATA.json`).then((result) => {
-      setTableData(Object.values(result.data));
+      setTableData(Object.values(data));
 
       // Get Main Properties
-      const uniqueSection = Object.values(result.data).reduce(
+      const uniqueSection = Object.values(data).reduce(
         (uniqueSectionKey, uniqueSectionValue) => {
           const keys = Object.keys(uniqueSectionValue);
           keys.forEach((key) => {
@@ -37,7 +36,7 @@ const Table = () => {
 
       // Get sub property of each main property
       const subkeysMap = {};
-      Object.values(result.data).forEach((subkeysValue) => {
+      Object.values(data).forEach((subkeysValue) => {
         Object.keys(subkeysValue).forEach((key) => {
           if (
             typeof subkeysValue[key] === "object" &&
@@ -60,8 +59,7 @@ const Table = () => {
       });
 
       setSubkeys(subkeysArray);
-    });
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     const storedEditedData = localStorage.getItem("editedData");
@@ -95,13 +93,15 @@ const Table = () => {
 
   const handleExportRows = (rows) => {
     const rowData = rows.map((row) => row.original);
-    const csv = generateCsv(csvConfig)(rowData);
-    download(csvConfig)(csv);
+    const updatedConfig = { ...csvConfig, filename: `Export ${selectedSection} Page Rows` };
+    const csv = generateCsv(updatedConfig)(rowData);
+    download(updatedConfig)(csv);
   };
 
   const handleExportSelectedData = () => {
-    const csv = generateCsv(csvConfig)(rows);
-    download(csvConfig)(csv);
+    const updatedConfig = { ...csvConfig, filename: `Export ${selectedSection} Data` };
+    const csv = generateCsv(updatedConfig)(rows);
+    download(updatedConfig)(csv);
   };
 
   //edit data
@@ -157,6 +157,7 @@ const Table = () => {
     fieldSeparator: ",",
     decimalSeparator: ".",
     useKeysAsHeaders: true,
+    filename: true
   });
 
   const theme = useTheme();
@@ -235,11 +236,11 @@ const Table = () => {
   });
 
   return (
-    <div className="container-fluid tablePage bg-black font-color-white">
+    <div className="container-fluid min-vh-100 bg-blackShade tablePage">
       <div className="dropdown row justify-content-center m-5">
-        <h2>Sub-data in Table Format</h2>
+        <h2 className="font-400">Sub-data in Table Format</h2>
         <button
-          className="font-color-white bg-lightgreenish p-3 border rounded  dropdown-toggle"
+          className=" bg-lightgreenish p-3 my-5 col-lg-3 border rounded  dropdown-toggle"
           type="button"
           id="dropdownMenuButton1"
           data-bs-toggle="dropdown"
@@ -248,7 +249,7 @@ const Table = () => {
           Table Options
         </button>
         <ul
-          className="dropdown-menu font-color-white p-3 border rounded"
+          className="dropdown-menu p-3 col-lg-3  border rounded"
           aria-labelledby="dropdownMenuButton1"
         >
           {sections.map((section) => (
@@ -265,7 +266,7 @@ const Table = () => {
           ))}
         </ul>
       </div>
-      <h2>{selectedSection} </h2>
+      <h3 className="mb-3">{selectedSection} </h3>
       <div className="row tableDisplay m-2 text-white">
         {selectedSection && <MaterialReactTable table={table} />}
       </div>

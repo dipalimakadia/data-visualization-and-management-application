@@ -1,7 +1,7 @@
 import React from "react";
 const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark ">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-pureBlack font-color-greyLight">
       <div className="container-fluid">
         <a className="navbar-brand text-light pr-6 url_link" href="/">
           Home

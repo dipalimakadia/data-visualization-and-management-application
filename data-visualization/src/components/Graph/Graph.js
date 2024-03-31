@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-const Graph = () => {
+const Graph = ({data}) => {
   const [graphData, setGraphData] = useState([]);
   const tdp = Object.keys(graphData).map((val) =>
     parseFloat(graphData[val]?.Performance?.TDP)
@@ -42,10 +41,11 @@ const Graph = () => {
   // });
 
   useEffect(() => {
-    axios
-      .get(`/API_DATA.json`)
-      .then((result) => setGraphData(Object.values(result.data)));
-  }, []);
+    // axios
+    //   .get(`/API_DATA.json`)
+    //   .then((result) => setGraphData(Object.values(result.data)));
+      setGraphData(data)
+  }, [data]);
 
   const baroptions = {
     chart: {
@@ -56,8 +56,8 @@ const Graph = () => {
       text: "Cores and TDP of every chip",
       style: {
         color: "white",
+        fontSize: "20px",
       },
-      
     },
     xAxis: {
       categories: graphData.map((res) => res.name),
@@ -81,8 +81,6 @@ const Graph = () => {
           enabled: true,
         },
       },
-
-     
     },
     legend: {
       borderWidth: 1,
@@ -97,7 +95,7 @@ const Graph = () => {
         tooltip: {
           valueSuffix: " W",
         },
-        color:"#EFC030"
+        color: "#EFC030",
       },
       {
         name: "# of Cores",
@@ -105,7 +103,7 @@ const Graph = () => {
         tooltip: {
           valueSuffix: "",
         },
-        color:"#0044FC"
+        color: "#0044FC",
       },
     ],
   };
@@ -118,9 +116,10 @@ const Graph = () => {
   //   },
   //   title: {
   //     text: "No. of processors with Instruction Set of 64-bit and 32-bit",
-      // style: {
-      //   color: "white",
-      // },
+  // style: {
+  //   color: "white",
+  // fontSize:'30px',
+  // },
   //   },
   //   plotOptions: {
   //     pie: {
@@ -157,6 +156,7 @@ const Graph = () => {
       text: "No. of Essentials Status",
       style: {
         color: "white",
+        fontSize: "20px",
       },
     },
     tooltip: {
@@ -181,7 +181,7 @@ const Graph = () => {
           {
             name: "Launched",
             y: launched,
-            color: '#AF4DFF',
+            color: "#AF4DFF",
           },
 
           {
@@ -192,7 +192,7 @@ const Graph = () => {
           {
             name: "Announced",
             y: announced,
-            color: "#FF6858"
+            color: "#FF6858",
           },
         ],
       },
@@ -200,11 +200,14 @@ const Graph = () => {
   };
 
   return (
-    <div className="graphPage bg-black container-fluid">
-      <div className="row">
+    <div className="container-fluid graphPage bg-blackShade">
+      <div className="row justify-content-center m-5">
+        <h2 className="font-400">Data in Graphs</h2>
+      </div>
+      <div className="row py-3 my-3">
         <HighchartsReact highcharts={Highcharts} options={baroptions} />
       </div>
-      <div className="row">
+      <div className="row py-3">
         <HighchartsReact
           className="col-md-12 col-lg-4"
           highcharts={Highcharts}

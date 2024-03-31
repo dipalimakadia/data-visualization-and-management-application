@@ -3,7 +3,12 @@ import { db } from "../../firebase";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { Modal, Button } from "react-bootstrap";
-import { Trash, FolderPlus, PencilSquare, PersonHeart, PersonHearts } from "react-bootstrap-icons";
+import {
+  Trash,
+  FolderPlus,
+  PencilSquare,
+  PersonHeart,
+} from "react-bootstrap-icons";
 import {
   collection,
   addDoc,
@@ -19,6 +24,33 @@ const Notes = () => {
   const [notes, setNotes] = useState([]);
   const [editingNoteId, setEditingNoteId] = useState(null);
   const [show, setShow] = useState(false);
+  const [colors] = useState([
+    "#846470",
+    "#023641",
+    "#562c29",
+    "#ab5852",
+    "#cb9979",
+    "#035162",
+    "#8e9373",
+    "#a19870",
+    "#d69e49",
+    "#838469",
+    "#657268",
+    "#476066",
+    "#5e1675",
+    "#3ecd5e",
+    "#715660",
+    "#036b82",
+    "#528279",
+    "#566071",
+    "#c39f72",
+    "#667762",
+    "#f9b234",
+    "#952aff",
+    "#cd3e94",
+    "#4c49ea",
+    "#034452",
+  ]);
 
   const handleClose = () => {
     setName("");
@@ -32,7 +64,6 @@ const Notes = () => {
   useEffect(() => {
     fetchNotes();
     AOS.init({
-      disable: "phone",
       duration: 700,
       easing: "ease-out-cubic",
     });
@@ -85,91 +116,105 @@ const Notes = () => {
   };
 
   return (
-    <div className="container-fluid text-white bg-black">
-      <div className="row  m-3 p-3">
-        <h3>
-        Suggestion/Feedback
-        </h3>
+    <div className="container-fluid bg-blackShade">
+      <div className="row justify-content-center m-5">
+        <h2 className="font-400"> Suggestion/Feedback</h2>
       </div>
       <div className="row">
-        <div className="col-md-1 text-right">
+        <div className="col-lg-2 col-md-3 col-sm-12">
           <Button variant="success" onClick={handleShow}>
             <FolderPlus size={20} />
           </Button>
         </div>
       </div>
-      <div className="row centered-card  rounded p-4 border border-secondary m-2">
-        <h4>Notes</h4>
 
+      <div className="row centered-card font-300 rounded p-4 m-2">
         <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Any suggestion/feedback</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <div className="row justify-content-center">
-              <label htmlFor="nameInput" className="form-label">
-                Your Name:
-              </label>
-              <input
-                type="text"
-                className="form-control border-bottom"
-                id="nameInput"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="noteInput" className="form-label">
-                Note:
-              </label>
-              <textarea
-                className="form-control border-bottom"
-                id="noteInput"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-                required
-              ></textarea>
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button
-              type="submit"
-              onClick={handleSubmit}
-              className="btn btn-success"
-              disabled={name === "" || note === ""}
-            >
-              {editingNoteId ? "Update Note" : "Add Note"}
-            </Button>
-          </Modal.Footer>
+          <div className="note font-color-greyLight">
+            <div className="note-item-bg bg-greyish"></div>
+            <Modal.Header>
+              <Modal.Title>
+                <div className="modal-title">Any suggestion/feedback</div>
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <div className="modal-body">
+                <label htmlFor="nameInput" className="form-label">
+                  Your Name:
+                </label>
+                <input
+                  type="text"
+                  className="form-control border-bottom mb-3"
+                  id="nameInput"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+                <label htmlFor="noteInput" className="form-label">
+                  Note:
+                </label>
+                <textarea
+                  className="form-control border-bottom"
+                  id="noteInput"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
+                ></textarea>
+              </div>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button className="btn-light" onClick={handleClose}>
+                Close
+              </Button>
+              <Button
+                type="submit"
+                onClick={handleSubmit}
+                className="btn btn-success"
+                disabled={name === "" || note === ""}
+              >
+                {editingNoteId ? "Update Note" : "Add Note"}
+              </Button>
+            </Modal.Footer>
+          </div>
         </Modal>
 
-        {notes.map((note) => (
-          <div
-            data-aos="flip-left"
-            className="card col-sm-6 m-1 bg-dark text-white"
-          >
-            <h5 className="card-header text-start"> <PersonHeart size={30} className="pr-5"/> {note.name}</h5>
-            <div className="card-body">
-              <p className="card-text">Note: {note.note}</p>
-              <button
-                onClick={() => handleEdit(note)}
-                className="btn btn-info m-2"
+        <div className="row font-300">
+          {notes.map((note, index) => (
+            <div data-aos="zoom-in" className="col-lg-4 col-md-6 col-sm-12">
+              <div
+                className="note-item"
+                style={{ backgroundColor: colors[index % colors.length] }}
               >
-                <PencilSquare size={20} />
-              </button>
-              <button
-                onClick={() => handleDelete(note.id)}
-                className="btn btn-danger"
-              >
-                <Trash size={20} />
-              </button>
+                <div className="note">
+                  <div
+                    className="note-item-bg"
+                    style={{ backgroundColor: colors[index % colors.length] }}
+                  ></div>
+
+                  <div className="note-title-box">
+                    <PersonHeart size={25} />
+                    <span className="note-title"> {note.name} </span>
+                  </div>
+
+                  <div className="note-body height-overflow mt-2">{note.note}</div>
+
+                  <div className="note-title-box">
+                    <button
+                      onClick={() => handleEdit(note)}
+                      className="btn btn-light m-2"
+                    >
+                      <PencilSquare size={20} />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(note.id)}
+                      className="btn btn-danger"
+                    >
+                      <Trash size={20} />
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
