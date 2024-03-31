@@ -4,11 +4,11 @@ import {
   createMRTColumnHelper,
   useMaterialReactTable,
 } from "material-react-table";
-import { darken, lighten, useTheme, Box } from "@mui/material";
+import { darken, lighten, useTheme, Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv";
 
-const Table = ({data}) => {
+const Table = ({ data }) => {
   const [tableData, setTableData] = useState([]);
   const [selectedSection, setSelectedSection] = useState("");
   const [sections, setSections] = useState([]);
@@ -17,48 +17,48 @@ const Table = ({data}) => {
   const [editedData, setEditedData] = useState({});
 
   useEffect(() => {
-      setTableData(Object.values(data));
+    setTableData(Object.values(data));
 
-      // Get Main Properties
-      const uniqueSection = Object.values(data).reduce(
-        (uniqueSectionKey, uniqueSectionValue) => {
-          const keys = Object.keys(uniqueSectionValue);
-          keys.forEach((key) => {
-            if (!uniqueSectionKey.includes(key) && key !== "name") {
-              uniqueSectionKey.push(key);
-            }
-          });
-          return uniqueSectionKey;
-        },
-        []
-      );
-      setSections(uniqueSection);
-
-      // Get sub property of each main property
-      const subkeysMap = {};
-      Object.values(data).forEach((subkeysValue) => {
-        Object.keys(subkeysValue).forEach((key) => {
-          if (
-            typeof subkeysValue[key] === "object" &&
-            subkeysValue[key] !== null
-          ) {
-            Object.keys(subkeysValue[key]).forEach((subkey) => {
-              if (!subkeysMap[key]) {
-                subkeysMap[key] = new Set();
-              }
-              subkeysMap[key].add(subkey);
-            });
+    // Get Main Properties
+    const uniqueSection = Object.values(data).reduce(
+      (uniqueSectionKey, uniqueSectionValue) => {
+        const keys = Object.keys(uniqueSectionValue);
+        keys.forEach((key) => {
+          if (!uniqueSectionKey.includes(key) && key !== "name") {
+            uniqueSectionKey.push(key);
           }
         });
-      });
+        return uniqueSectionKey;
+      },
+      []
+    );
+    setSections(uniqueSection);
 
-      // Convert sets to arrays for easier rendering
-      const subkeysArray = {};
-      Object.entries(subkeysMap).forEach(([key, value]) => {
-        subkeysArray[key] = Array.from(value);
+    // Get sub property of each main property
+    const subkeysMap = {};
+    Object.values(data).forEach((subkeysValue) => {
+      Object.keys(subkeysValue).forEach((key) => {
+        if (
+          typeof subkeysValue[key] === "object" &&
+          subkeysValue[key] !== null
+        ) {
+          Object.keys(subkeysValue[key]).forEach((subkey) => {
+            if (!subkeysMap[key]) {
+              subkeysMap[key] = new Set();
+            }
+            subkeysMap[key].add(subkey);
+          });
+        }
       });
+    });
 
-      setSubkeys(subkeysArray);
+    // Convert sets to arrays for easier rendering
+    const subkeysArray = {};
+    Object.entries(subkeysMap).forEach(([key, value]) => {
+      subkeysArray[key] = Array.from(value);
+    });
+
+    setSubkeys(subkeysArray);
   }, [data]);
 
   useEffect(() => {
@@ -93,13 +93,19 @@ const Table = ({data}) => {
 
   const handleExportRows = (rows) => {
     const rowData = rows.map((row) => row.original);
-    const updatedConfig = { ...csvConfig, filename: `Export ${selectedSection} Page Rows` };
+    const updatedConfig = {
+      ...csvConfig,
+      filename: `Export ${selectedSection} Page Rows`,
+    };
     const csv = generateCsv(updatedConfig)(rowData);
     download(updatedConfig)(csv);
   };
 
   const handleExportSelectedData = () => {
-    const updatedConfig = { ...csvConfig, filename: `Export ${selectedSection} Data` };
+    const updatedConfig = {
+      ...csvConfig,
+      filename: `Export ${selectedSection} Data`,
+    };
     const csv = generateCsv(updatedConfig)(rows);
     download(updatedConfig)(csv);
   };
@@ -157,7 +163,7 @@ const Table = ({data}) => {
     fieldSeparator: ",",
     decimalSeparator: ".",
     useKeysAsHeaders: true,
-    filename: true
+    filename: true,
   });
 
   const theme = useTheme();
@@ -211,22 +217,22 @@ const Table = ({data}) => {
           flexWrap: "wrap",
         }}
       >
-        <button
-          className="btn btn-success"
+        <Button
+          className="bg-success text-white"
           onClick={handleExportSelectedData}
           startIcon={<FileDownloadIcon />}
         >
           Export {selectedSection} Data
-        </button>
+        </Button>
 
-        <button
-          className=" btn btn-success"
+        <Button
+          className=" bg-success text-white"
           disabled={table.getRowModel().rows.length === 0}
           onClick={() => handleExportRows(table.getRowModel().rows)}
           startIcon={<FileDownloadIcon />}
         >
           Export Page Rows
-        </button>
+        </Button>
 
         <button className="btn btn-danger" onClick={clearLocalStorage}>
           Clear Local Storage
@@ -253,15 +259,12 @@ const Table = ({data}) => {
           aria-labelledby="dropdownMenuButton1"
         >
           {sections.map((section) => (
-            <li>
-              <a
-                href
-                className="dropdown-item pointer"
-                key={section}
-                onClick={() => handleButtonClick(section)}
-              >
-                {section}
-              </a>
+            <li
+              key={section}
+              className="dropdown-item pointer"
+              onClick={() => handleButtonClick(section)}
+            >
+              {section}
             </li>
           ))}
         </ul>

@@ -18,8 +18,6 @@ function App() {
       .then((result) => setData(Object.values(result.data)));
   }, []);
 
-  console.log("app data", data)
-
   return (
     <div className="App d-flex flex-column min-vh-100">
       <Navbar />
@@ -27,8 +25,16 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <Routes>
             <Route exact path="/" Component={Home} />
-            <Route exact path="/graph" Component={() => <Graph data={data} />} />
-            <Route exact path="/table" Component={() => <Table data={data} />} />
+            <Route
+              exact
+              path="/graph"
+              Component={() => <Graph data={data} />}
+            />
+            <Route
+              exact
+              path="/table"
+              Component={() => <Table data={data} />}
+            />
             <Route exact path="/notes" Component={Notes} />
           </Routes>
         </Suspense>

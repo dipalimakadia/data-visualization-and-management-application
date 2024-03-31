@@ -67,7 +67,7 @@ const Notes = () => {
       duration: 700,
       easing: "ease-out-cubic",
     });
-  }, []);
+  });
 
   const fetchNotes = async () => {
     const notesSnapshot = await getDocs(notesRef);
@@ -178,7 +178,7 @@ const Notes = () => {
 
         <div className="row font-300">
           {notes.map((note, index) => (
-            <div data-aos="zoom-in" className="col-lg-4 col-md-6 col-sm-12">
+            <div key={index} data-aos="zoom-in" className="col-lg-4 col-md-6 col-sm-12">
               <div
                 className="note-item"
                 style={{ backgroundColor: colors[index % colors.length] }}
