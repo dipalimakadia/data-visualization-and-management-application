@@ -116,7 +116,7 @@ const Notes = () => {
   };
 
   return (
-    <div className="container-fluid bg-blackShade">
+    <div className="container-fluid min-vh-100 bg-blackShade">
       <div className="row justify-content-center m-5">
         <h2 className="font-400"> Suggestion/Feedback</h2>
       </div>
@@ -178,7 +178,11 @@ const Notes = () => {
 
         <div className="row font-300">
           {notes.map((note, index) => (
-            <div key={index} data-aos="zoom-in" className="col-lg-4 col-md-6 col-sm-12">
+            <div
+              key={index}
+              data-aos="zoom-in"
+              className="col-lg-4 col-md-6 col-sm-12"
+            >
               <div
                 className="note-item"
                 style={{ backgroundColor: colors[index % colors.length] }}
@@ -194,7 +198,9 @@ const Notes = () => {
                     <span className="note-title"> {note.name} </span>
                   </div>
 
-                  <div className="note-body height-overflow mt-2">{note.note}</div>
+                  <div className="note-body height-overflow mt-2">
+                    {note.note}
+                  </div>
 
                   <div className="note-title-box">
                     <button

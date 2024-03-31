@@ -5,7 +5,9 @@ import {
   useMaterialReactTable,
 } from "material-react-table";
 import { darken, lighten, useTheme, Box, Button } from "@mui/material";
-import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import {
+ Download, Trash
+} from "react-bootstrap-icons";
 import { mkConfig, generateCsv, download } from "export-to-csv";
 
 const Table = ({ data }) => {
@@ -220,7 +222,7 @@ const Table = ({ data }) => {
         <Button
           className="bg-success text-white"
           onClick={handleExportSelectedData}
-          startIcon={<FileDownloadIcon />}
+          startIcon={<Download size={20} />}
         >
           Export {selectedSection} Data
         </Button>
@@ -229,13 +231,13 @@ const Table = ({ data }) => {
           className=" bg-success text-white"
           disabled={table.getRowModel().rows.length === 0}
           onClick={() => handleExportRows(table.getRowModel().rows)}
-          startIcon={<FileDownloadIcon />}
+          startIcon={<Download size={20} />}
         >
           Export Page Rows
         </Button>
 
         <button className="btn btn-danger" onClick={clearLocalStorage}>
-          Clear Local Storage
+        <Trash size={20} /> Clear Local Storage
         </button>
       </Box>
     ),

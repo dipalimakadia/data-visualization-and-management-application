@@ -9,10 +9,10 @@ const Home = () => {
       className="homePage flex-grow-1 container-fluid d-flex justify-content-center align-items-center px-4 py-5"
     >
       <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
-        <div className=" col-sm-12 col-lg-6">
+        <div className=" col-sm-12 col-lg-6 image-class">
           <img
             src={heroImage}
-            className="d-block mx-lg-auto img-fluid animate-ping"
+            className="d-block mx-lg-auto img-fluid slide-in-from-right fade-out"
             alt="Data Visualization"
             width="700"
             height="500"
@@ -20,13 +20,13 @@ const Home = () => {
           />
         </div>
         <div className="col-sm-12 col-lg-6">
-          <h1 className="font-500 mb-3">Data Visualization & Management</h1>
-          <p className="font-color-greyish lead font-300">
+          <h1 className="font-500 mb-3 slide-in-from-top">Data Visualization & Management</h1>
+          <p className="font-color-greyish lead font-300 slide-in-from-left">
             The application allows you to visualize data in the form of graphs
             and tables, along with providing features for data Manipulation and
             comparison.
           </p>
-          <div className="d-grid gap-2 d-md-flex justify-content-md-center">
+          <div className="d-grid gap-2 d-md-flex justify-content-md-center slide-in-from-bottom button-class">
             <Link
               to="/graph"
               type="button"
