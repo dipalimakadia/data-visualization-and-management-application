@@ -116,12 +116,17 @@ This application serves as a comprehensive tool for data visualization, manageme
 
 <a id="HomepageDemo"></a>
 ### Homepage
+https://github.com/dipalimakadia/data-visualization-and-management-application/assets/37415891/00224d48-f353-4ff4-b40c-e16eb78f2a16
 
 <a id="GraphDemo"></a>
 ### Graph
+https://github.com/dipalimakadia/data-visualization-and-management-application/assets/37415891/7a6d2c65-403e-4351-b0e8-ccde9f013c12
 
 <a id="TableDemo"></a>
 ### Table
+https://github.com/dipalimakadia/data-visualization-and-management-application/assets/37415891/56717b94-fd7b-47b3-9600-ebf396ebae1c
 
 <a id="NotesDemo"></a>
 ### Notes
+https://github.com/dipalimakadia/data-visualization-and-management-application/assets/37415891/52b91878-f4c1-4cc8-a7cb-b862e331591c
+
