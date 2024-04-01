@@ -47,7 +47,7 @@ This single-page application (SPA) is a comprehensive data visualization and man
 
 <a id="Notes"></a>
 ### Adding notes for Feedback/Suggestions
-- Allows user to **view** all previous notes and also provide any feedback or suggestions if they have.
+- **View Notes:** Allows users to view all previous notes and also provide any feedback or suggestions if they have.
 - **Add Note:** Allows users to add new notes or feedback.
 - **Edit Note:** Provides functionality to edit existing notes.
 - **Delete Note:** Enables users to delete notes or feedback entries.
@@ -73,6 +73,7 @@ This application serves as a comprehensive tool for data visualization, manageme
 * Export To CSV (export-to-csv)
 * AOS Library (Animation on Scroll)
 * Firebase & Firestore (database)
+* GitHub
 
 ***
 <a id="Implementation"></a>
